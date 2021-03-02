@@ -930,7 +930,7 @@ void SV_Init (void)
 	sv_banFile = Cvar_Get("sv_banFile", "serverbans.dat", CVAR_ARCHIVE);
 
 	sv_demonotice = Cvar_Get ("sv_demonotice", "Smile! You're on camera!", CVAR_ARCHIVE);
-	sv_demofolder = Cvar_Get ("sv_demofolder", "serverdemos", CVAR_ARCHIVE );
+	sv_demofolder = Cvar_Get ("sv_demofolder", "serverdemos", CVAR_INIT | CVAR_PROTECTED );
 	sv_autoRecordDemo = Cvar_Get ("sv_autoRecordDemo", "0", CVAR_ARCHIVE );
 
 	sv_forceGear = Cvar_Get ("sv_forceGear", "", CVAR_ARCHIVE);
