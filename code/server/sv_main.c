@@ -78,6 +78,8 @@ cvar_t  *sv_substitute;
 cvar_t  *sv_matchStart;
 cvar_t  *sv_matchStartSec;
 
+cvar_t  *mod_FastTeamChange;
+
 #ifdef USE_AUTH
 cvar_t	*sv_authServerIP;
 cvar_t	*sv_auth_engine;
