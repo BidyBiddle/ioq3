@@ -700,47 +700,13 @@ static void dmaHD_PaintChannelFrom16(channel_t *ch, const sfx_t *sc, int count, 
 	}
 }
 
-void dmaHD_TransferPaintBuffer(int endtime)
-{
-	int		lpos;
-	int		ls_paintedtime;
-	int		i;
-	int		val;
-	int*     snd_p;  
-	int      snd_linear_count;
-	short*   snd_out;
-	short*   snd_outtmp;
-	unsigned long *pbuf = (unsigned long *)dma.buffer;
 
-	snd_p = (int*)dmaHD_paintbuffer;
-	ls_paintedtime = s_paintedtime;
-	
-	while (ls_paintedtime < endtime)
-	{
-		// handle recirculating buffer issues
-		lpos = ls_paintedtime & ((dma.samples >> 1) - 1);
+// Use paint buffer transfer functions from snd_mix.c
+extern int*     snd_p;
+extern int      snd_linear_count;
+extern short*   snd_out;
 
-		snd_out = (short *)pbuf + (lpos << 1);
-
-		snd_linear_count = (dma.samples >> 1) - lpos;
-		if (ls_paintedtime + snd_linear_count > endtime)
-			snd_linear_count = endtime - ls_paintedtime;
-
-		snd_linear_count <<= 1;
-
-		// write a linear blast of samples
-		for (snd_outtmp = snd_out, i = 0; i < snd_linear_count; ++i)
-		{
-			val = *snd_p++ >> 8;
-			*snd_outtmp++ = SMPCLAMP(val);
-		}
-
-		ls_paintedtime += (snd_linear_count>>1);
-
-		if (CL_VideoRecording())
-			CL_WriteAVIAudioFrame((byte *)snd_out, snd_linear_count << 1);
-	}
-}
+extern void S_TransferPaintBuffer(int endtime, portable_samplepair_t paintbuffer[]);
 
 void dmaHD_PaintChannels( int endtime ) 
 {
@@ -854,7 +820,7 @@ void dmaHD_PaintChannels( int endtime )
 		}
 
 		// transfer out according to DMA format
-		dmaHD_TransferPaintBuffer(end);
+		S_TransferPaintBuffer( end, dmaHD_paintbuffer );
 		s_paintedtime = end;
 	}
 }
@@ -1285,7 +1251,6 @@ void dmaHD_Update( void )
 void dmaHD_Update_Mix(void) 
 {
 	unsigned endtime;
-	int samps;
 	static int lastTime = 0.0f;
 	int mixahead, op, thisTime, sane;
 	static int lastsoundtime = -1;
@@ -1314,8 +1279,8 @@ void dmaHD_Update_Mix(void)
 	endtime = s_soundtime + mixahead;
 
 	// never mix more than the complete buffer
-	samps = dma.samples >> (dma.channels-1);
-	if ((endtime - s_soundtime) > samps) endtime = (s_soundtime + samps);
+	if (endtime - s_soundtime > dma.fullsamples)
+	    endtime = s_soundtime + dma.fullsamples;
 
 	SNDDMA_BeginPainting ();
 

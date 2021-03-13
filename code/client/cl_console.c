@@ -56,11 +56,10 @@ typedef struct {
 #define CONSOLE_ALL 0
 #define CONSOLE_GENERAL 1
 #define CONSOLE_KILLS 2
-#define CONSOLE_HITS 3
-#define CONSOLE_CHAT 4
-#define CONSOLE_DEV 5
+#define CONSOLE_CHAT 3
+#define CONSOLE_DEV 4
 
-console_t consoles[6];
+console_t consoles[5];
 
 console_t *currentCon = &consoles[CONSOLE_ALL];
 console_t *mainCon = &consoles[CONSOLE_ALL];
@@ -68,8 +67,7 @@ console_t *mainCon = &consoles[CONSOLE_ALL];
 char *consoleNames[] = {
 	"All",
 	"General",
-	"Kills",
-	"Hits",
+	"Frag",
 	"Chat",
 	"Dev"
 };
@@ -569,8 +567,7 @@ If no console is visible, the text will appear at the top of the game window
 */
 void CL_ConsolePrint( char *txt ) {
 	int i;
-	qboolean isKill = qfalse;
-	qboolean isHit = qfalse;
+	qboolean isFrag = qfalse;
 	qboolean isChat = qfalse;
 
 	qboolean skipnotify = qfalse; // NERVE - SMF
@@ -599,11 +596,8 @@ void CL_ConsolePrint( char *txt ) {
 		}
 	}
 
-	if (txt[0] == 17) {
-		isKill = qtrue;
-		txt++;
-	} else if (txt[0] == 18) {
-		isHit = qtrue;
+	if (txt[0] == 17 || txt[0] == 18) {
+		isFrag = qtrue;
 		txt++;
 	} else if (txt[0] == 19) {
 		isChat = qtrue;
@@ -612,11 +606,8 @@ void CL_ConsolePrint( char *txt ) {
 
 	writeTextToConsole(&consoles[CONSOLE_ALL], txt, skipnotify);
 
-	if (isKill) {
+	if (isFrag) {
 		writeTextToConsole(&consoles[CONSOLE_KILLS], txt, skipnotify);
-		writeTextToConsole(&consoles[CONSOLE_HITS], txt, skipnotify);
-	} else if (isHit) {
-		writeTextToConsole(&consoles[CONSOLE_HITS], txt, skipnotify);
 	} else if (isChat) {
 		writeTextToConsole(&consoles[CONSOLE_CHAT], txt, skipnotify);
 	} else {
@@ -915,9 +906,9 @@ void Con_DrawConsole( void ) {
 	int i;
 
 	if (com_developer && com_developer->integer)
-		numConsoles = 6;
-	else
 		numConsoles = 5;
+	else
+		numConsoles = 4;
 
 	// check for console width changes from a vid mode change
 	Con_CheckResize (currentCon);
