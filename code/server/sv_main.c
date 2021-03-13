@@ -22,11 +22,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "server.h"
 
-#ifdef USE_VOIP
-cvar_t *sv_voip;
-cvar_t *sv_voipProtocol;
-#endif
-
 serverStatic_t	svs;				// persistant server info
 server_t		sv;					// local server
 vm_t			*gvm = NULL;				// game virtual machine
@@ -37,7 +32,6 @@ cvar_t	*sv_zombietime;			// seconds to sink messages after disconnect
 cvar_t	*sv_rconPassword;		// password for remote server commands
 cvar_t	*sv_privatePassword;		// password for the privateClient slots
 cvar_t	*sv_maxclients;
-
 cvar_t	*sv_privateClients;		// number of clients reserved for password
 cvar_t	*sv_hostname;
 cvar_t	*sv_master[MAX_MASTER_SERVERS];	// master server ip address
@@ -58,27 +52,31 @@ cvar_t	*sv_extraPure;
 cvar_t	*sv_extraPaks;
 cvar_t	*sv_floodProtect;
 cvar_t	*sv_newpurelist;
-cvar_t	*sv_lanForceRate; // dedicated 1 (LAN) server forces local client rates to 99999 (bug #491)
+cvar_t	*sv_lanForceRate;		// dedicated 1 (LAN) server forces local client rates to 99999 (bug #491)
 cvar_t	*sv_banFile;
 cvar_t	*sv_clientsPerIp;
 
 serverBan_t serverBans[SERVER_MAXBANS];
 int serverBansCount = 0;
 cvar_t	*sv_demonotice;			// notice to print to a client being recorded server-side
-cvar_t	*sv_demofolder;			//@Barbatos - the name of the folder that contains server-side demos
-cvar_t	*sv_autoRecordDemo;
-cvar_t  *sv_tellprefix;
-cvar_t  *sv_sayprefix;
+cvar_t	*sv_demofolder;			// define the server-side demo folder name
+cvar_t	*sv_autoRecordDemo;		// automatically create a server demo of every player that connects
+cvar_t	*sv_tellprefix;
+cvar_t	*sv_sayprefix;
 
-cvar_t  *sv_forceGear;
-cvar_t  *sv_iceEverywhere;
-cvar_t  *sv_infiniteStamina;
-cvar_t  *sv_infiniteAmmo;
-cvar_t  *sv_substitute;
-cvar_t  *sv_matchStart;
-cvar_t  *sv_matchStartSec;
+cvar_t	*sv_forceGear;			// set a specific gear string for all players
+cvar_t	*sv_iceEverywhere;		// if set to 1, all ground surfaces become slick (icy)
+cvar_t	*sv_infiniteStamina;	// if set to 1, enables infinite stamina
+cvar_t	*sv_infiniteAmmo;		// if set to 1, enables unlimited ammo
+cvar_t	*sv_substitute;			// allow the use of substitutes in matchmode (Default 1 = allowed)
+cvar_t	*sv_matchStart;			// first round/minute allowed weapons (0 = all, 1 = pistol, 2 = knife, 3 = knife then pistol)
+cvar_t	*sv_matchStartSec;		// ammount of seconds to set the weapon restriction for non round-based modes (default 30)
+cvar_t	*sv_teamSwitch;			// allow players to switch teams (0, Default = players must wait 5 seconds to switch, 1 = no restriction)
 
-cvar_t  *mod_FastTeamChange;
+#ifdef USE_VOIP
+cvar_t	*sv_voip;
+cvar_t	*sv_voipProtocol;
+#endif
 
 #ifdef USE_AUTH
 cvar_t	*sv_authServerIP;
@@ -86,15 +84,15 @@ cvar_t	*sv_auth_engine;
 #endif
 
 #ifdef USE_SKEETMOD
-cvar_t  *sv_skeetshoot;
-cvar_t  *sv_skeethitreport;
-cvar_t  *sv_skeethitsound;
-cvar_t  *sv_skeetpoints;
-cvar_t  *sv_skeetpointsnotify;
-cvar_t  *sv_skeetprotect;
-cvar_t  *sv_skeetspeed;
-cvar_t  *sv_skeetrotate;
-cvar_t  *sv_skeetfansize;
+cvar_t	*sv_skeetshoot;			// enable/disable skeetshooting mod
+cvar_t	*sv_skeethitreport;		// report every skeet hit as server message
+cvar_t	*sv_skeethitsound;		// sound to play upon skeet hit
+cvar_t	*sv_skeetpoints;		// how many points for each skeet hit: if 0 will use a distance based point system
+cvar_t	*sv_skeetpointsnotify;	// notify each point scored to the client who performed the shot
+cvar_t	*sv_skeetprotect;		// protect hit/kill of non-skeet entities (i.e. players)
+cvar_t	*sv_skeetspeed;			// speed of each skeet
+cvar_t	*sv_skeetrotate;		// ROLL angle rotation (defaults to 0, range between -360 and +360)
+cvar_t	*sv_skeetfansize;		// spread of the skeet launcher (defaults to 144, range 0-360)
 #endif
 
 /*

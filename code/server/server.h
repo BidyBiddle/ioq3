@@ -330,7 +330,6 @@ extern	cvar_t	*sv_zombietime;
 extern	cvar_t	*sv_rconPassword;
 extern	cvar_t	*sv_privatePassword;
 extern	cvar_t	*sv_maxclients;
-
 extern	cvar_t	*sv_privateClients;
 extern	cvar_t	*sv_hostname;
 extern	cvar_t	*sv_master[MAX_MASTER_SERVERS];
@@ -352,30 +351,30 @@ extern	cvar_t	*sv_extraPaks;
 extern	cvar_t	*sv_newpurelist;
 extern	cvar_t	*sv_floodProtect;
 extern	cvar_t	*sv_lanForceRate;
-extern	cvar_t	*sv_clientsPerIp;
 extern	cvar_t	*sv_banFile;
+extern	cvar_t	*sv_clientsPerIp;
 
 extern	serverBan_t serverBans[SERVER_MAXBANS];
 extern	int serverBansCount;
+
+extern	cvar_t	*sv_demonotice;			// notice to print to a client being recorded server-side
+extern	cvar_t	*sv_demofolder;			// define the server-side demo folder name
+extern	cvar_t	*sv_autoRecordDemo;		// automatically create a server demo of every player that connects
+extern	cvar_t	*sv_sayprefix;
+extern	cvar_t	*sv_tellprefix;
+extern	cvar_t	*sv_forceGear;			// set a specific gear string for all players (Default "")
+extern	cvar_t	*sv_iceEverywhere;		// if set to 1, all ground surfaces become slick (icy) (Default 0)
+extern	cvar_t	*sv_infiniteStamina;	// if set to 1, enables infinite stamina (Default 0)
+extern	cvar_t	*sv_infiniteAmmo;		// if set to 1, enables unlimited ammo (Default 0)
+extern	cvar_t	*sv_substitute;			// allow the use of substitutes in matchmode (Default 1 = allowed)
+extern	cvar_t	*sv_matchStart;			// initial spawn allowed weapons (0 = all, 1 = pistol, 2 = knife, 3 = knife then pistol)
+extern	cvar_t	*sv_matchStartSec;		// ammount of seconds to set the weapon restriction for non round based game types (default 30)
+extern	cvar_t	*sv_teamSwitch;			// allow players to switch teams (0, Default = players must wait 5 seconds to switch, 1 = no restriction)
 
 #ifdef USE_VOIP
 extern	cvar_t	*sv_voip;
 extern	cvar_t	*sv_voipProtocol;
 #endif
-extern	cvar_t	*sv_demonotice;
-extern  cvar_t  *sv_demofolder;
-extern  cvar_t  *sv_autoRecordDemo;
-extern  cvar_t  *sv_sayprefix;
-extern  cvar_t  *sv_tellprefix;
-extern  cvar_t  *sv_forceGear;
-extern  cvar_t  *sv_iceEverywhere;
-extern  cvar_t  *sv_infiniteStamina;
-extern  cvar_t  *sv_infiniteAmmo;
-extern  cvar_t  *sv_substitute;
-extern  cvar_t  *sv_matchStart;
-extern  cvar_t  *sv_matchStartSec;
-
-extern  cvar_t  *mod_FastTeamChange;
 
 #ifdef USE_AUTH
 extern	cvar_t	*sv_authServerIP;
@@ -383,15 +382,15 @@ extern	cvar_t	*sv_auth_engine;
 #endif
 
 #ifdef USE_SKEETMOD
-extern  cvar_t  *sv_skeetshoot;         // enable/disable skeetshooting mod
-extern  cvar_t  *sv_skeethitreport;     // report every skeet hit as server message
-extern  cvar_t  *sv_skeethitsound;      // sound to play upon skeet hit
-extern  cvar_t  *sv_skeetpoints;        // how many points for each skeet hit: if 0 will use a distance based point system
-extern  cvar_t  *sv_skeetpointsnotify;  // notify each point scored to the client who performed the shot
-extern  cvar_t  *sv_skeetprotect;       // protect hit/kill of non-skeet entities (i.e. players)
-extern  cvar_t  *sv_skeetspeed;			// speed of each skeet
-extern  cvar_t  *sv_skeetrotate;		// ROLL angle rotation (defaults to 0, range between -360 and +360)
-extern  cvar_t  *sv_skeetfansize;		// spread of the skeet launcher (defaults to 144, range 0-360)
+extern	cvar_t	*sv_skeetshoot;			// enable/disable skeetshooting mod
+extern	cvar_t	*sv_skeethitreport;		// report every skeet hit as server message
+extern	cvar_t	*sv_skeethitsound;		// sound to play upon skeet hit
+extern	cvar_t	*sv_skeetpoints;		// how many points for each skeet hit: if 0 will use a distance based point system
+extern	cvar_t	*sv_skeetpointsnotify;	// notify each point scored to the client who performed the shot
+extern	cvar_t	*sv_skeetprotect;		// protect hit/kill of non-skeet entities (i.e. players)
+extern	cvar_t	*sv_skeetspeed;			// speed of each skeet
+extern	cvar_t	*sv_skeetrotate;		// ROLL angle rotation (defaults to 0, range between -360 and +360)
+extern	cvar_t	*sv_skeetfansize;		// spread of the skeet launcher (defaults to 144, range 0-360)
 #endif
 
 //===========================================================
