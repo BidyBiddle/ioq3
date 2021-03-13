@@ -1254,6 +1254,8 @@ void SV_ExecuteClientCommand( client_t *cl, const char *s, qboolean clientOK ) {
 			
 			// Fix for the change teams limitation
             		if (Q_stricmp("team", Cmd_Argv(0)) == 0) {
+				int cid;
+        			cid = cl - svs.clients;
 				if (mod_FastTeamChange->integer) {
                 			Cmd_ExecuteString(va("forceteam %d %s", cid, Cmd_Argv(1)));
                 			return;
