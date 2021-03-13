@@ -1251,6 +1251,21 @@ void SV_ExecuteClientCommand( client_t *cl, const char *s, qboolean clientOK ) {
 			Cmd_Args_Sanitize();
 
 			argsFromOneMaxlen = -1;
+			
+			// Fix for the change teams limitation
+            		if (Q_stricmp("team", Cmd_Argv(0)) == 0) {
+				int cid;
+        			cid = cl - svs.clients;
+				if (mod_FastTeamChange->integer) {
+                			Cmd_ExecuteString(va("forceteam %d %s", cid, Cmd_Argv(1)));
+                			return;
+				}
+				if (Cvar_VariableIntegerValue("g_matchmode") == 1){
+					// always allow fast switching whilst matchmode is 1
+                			Cmd_ExecuteString(va("forceteam %d %s", cid, Cmd_Argv(1)));
+                			return;
+				}
+                	}
 			if (Q_stricmp("say", Cmd_Argv(0)) == 0 ||
 					Q_stricmp("say_team", Cmd_Argv(0)) == 0) {
 				argsFromOneMaxlen = MAX_SAY_STRLEN;

@@ -375,6 +375,8 @@ extern  cvar_t  *sv_substitute;
 extern  cvar_t  *sv_matchStart;
 extern  cvar_t  *sv_matchStartSec;
 
+extern  cvar_t  *mod_FastTeamChange;
+
 #ifdef USE_AUTH
 extern	cvar_t	*sv_authServerIP;
 extern	cvar_t	*sv_auth_engine;

@@ -945,6 +945,8 @@ void SV_Init (void)
 	sv_tellprefix = Cvar_Get ("sv_tellprefix", "console_tell: ", CVAR_ARCHIVE );
 	sv_extraPaks = Cvar_Get ("sv_extraPaks", "", CVAR_ARCHIVE | CVAR_LATCH);
 	sv_extraPure = Cvar_Get ("sv_extraPure", "0", CVAR_ARCHIVE | CVAR_LATCH);
+	
+	mod_FastTeamChange = Cvar_Get("mod_FastTeamChange", "0", CVAR_ARCHIVE);
 
 #ifdef USE_AUTH
 	sv_authServerIP = Cvar_Get("sv_authServerIP", "", CVAR_TEMP | CVAR_ROM);
